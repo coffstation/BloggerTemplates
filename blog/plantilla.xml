@@ -17,6 +17,7 @@
 		<link href='http://cdn.smurfdad.es/assets/bootstrap/3.3.1/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
 		<link href='http://cdn.smurfdad.es/sprites/icon-round-social/css.css' rel='stylesheet' type='text/css'/>
 		<link href='http://cdn.smurfdad.es/css/bs-callout.css' rel='stylesheet' type='text/css'/>
+		<link href='http://cdn.smurfdad.es/css/bs-cloud-tag-list.css' rel='stylesheet' type='text/css'/>
 
 		<b:include data='blog' name='google-analytics'/>
 	</head>
@@ -60,7 +61,7 @@
 					</div>
 				</b:includable>
 			</b:widget>
-			<b:widget id='Header1' locked='false' title='@Smurf_Dad (cabecera)' type='Header'>
+			<b:widget id='Header1' locked='false' title='Smurf Dad - Desa (cabecera)' type='Header'>
 				<b:includable id='main'>
 					<div class='page-header' style='background: url(http://cdn.smurfdad.es/images/cabecera/smurfegg.jpg) center no-repeat; background-size: 100%; '>
 						<div class='container'>
@@ -219,10 +220,10 @@
 							</a>
 							<small><data:post.dateHeader/></small>
 							<b:if cond='data:post.labels'>
-								<ul class='list-inline'>
+								<ul class='cloud-tag-list'>
 									<b:loop values='data:post.labels' var='label'>
-										<li>
-											<a class='btn btn-default btn-xs' expr:href='data:label.url' rel='tag'>
+										<li class='cloud-tag-list-item cloud-tag-list-item-default'>
+											<a expr:href='data:label.url' rel='tag'>
 												<data:label.name/>
 											</a>
 										</li>
@@ -295,39 +296,69 @@
 										<data:title/>
 									</h3>
 								</b:if>
-								<ul class='list-unstyled'>
-									<b:loop values='data:labels' var='label'>
-										<b:if cond='data:blog.url == data:label.url'>
-											<li>
-												<a class='bg-info' expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
-													<data:label.name/>
-													<b:if cond='data:showFreqNumbers'>
-														<span class='badge pull-right' dir='ltr'>
-															<data:label.count/>
-														</span>
-													</b:if>
-												</a>
-											</li>
-											<b:else/>
-											<li>
-												<a expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
-													<data:label.name/>
-													<b:if cond='data:showFreqNumbers'>
-														<span class='badge pull-right' dir='ltr'>
-															<data:label.count/>
-														</span>
-													</b:if>
-												</a>
-											</li>
-										</b:if>
-									</b:loop>
-								</ul>
+								<b:if cond='data:display == &quot;list&quot;'>
+									<ul class='list-unstyled'>
+										<b:loop values='data:labels' var='label'>
+											<b:if cond='data:blog.url == data:label.url'>
+												<li>
+													<a class='bg-info' expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
+														<data:label.name/>
+														<b:if cond='data:showFreqNumbers'>
+															<span class='badge pull-right' dir='ltr'>
+																<data:label.count/>
+															</span>
+														</b:if>
+													</a>
+												</li>
+												<b:else/>
+												<li>
+													<a expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
+														<data:label.name/>
+														<b:if cond='data:showFreqNumbers'>
+															<span class='badge pull-right' dir='ltr'>
+																<data:label.count/>
+															</span>
+														</b:if>
+													</a>
+												</li>
+											</b:if>
+										</b:loop>
+									</ul>
+									<b:else/>
+									<ul class='cloud-tag-list'>
+										<b:loop values='data:labels' var='label'>
+											<b:if cond='data:blog.url == data:label.url'>
+												<li class='cloud-tag-list-item cloud-tag-list-item-success'>
+													<a expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
+														<data:label.name/>
+														<b:if cond='data:showFreqNumbers'>
+															<span class='badge' dir='ltr'>
+																<data:label.count/>
+															</span>
+														</b:if>
+													</a>
+												</li>
+												<b:else/>
+												<li class='cloud-tag-list-item cloud-tag-list-item-warning'>
+													<a expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
+														<data:label.name/>
+														<b:if cond='data:showFreqNumbers'>
+															<span class='badge' dir='ltr'>
+																<data:label.count/>
+															</span>
+														</b:if>
+													</a>
+												</li>
+											</b:if>
+										</b:loop>
+									</ul>								
+								</b:if>
 							</div>
 						</b:includable>
 					</b:widget>
 					<b:widget id='BlogArchive1' locked='false' title='Histórico de publicaciones' type='BlogArchive'>
 						<b:includable id='main'>
-							<div class='bs-callout bs-callout-success'>
+							<div class='bs-callout bs-callout-success hidden-xs'>
 								<b:if cond='data:title'>
 									<h3>
 										<data:title/>
@@ -365,7 +396,7 @@
 					</b:widget>
 					<b:widget id='PopularPosts1' locked='false' title='Artículos más populares' type='PopularPosts'>
 						<b:includable id='main'>
-							<div class='bs-callout bs-callout-danger'>
+							<div class='bs-callout bs-callout-danger hidden-xs'>
 								<b:if cond='data:title'>
 									<h3>
 										<data:title/>
