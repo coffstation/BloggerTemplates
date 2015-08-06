@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<!DOCTYPE html>
+<html expr:dir='data:blog.languageDirection' lang='es' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 
 	<head>
 		<meta content='width=device-width, initial-scale=1.0' name='viewport'/>
 		<meta expr:content='data:blog.title' itemprop='name'/>
+		<meta content='Smurf Dad' name='Author'/>
 		<b:if cond='data:blog.metaDescription'>
 			<meta expr:content='data:blog.metaDescription' itemprop='description'/>
-		</b:if>		
+		</b:if>
 		<title><data:blog.pageTitle/></title>
 		<b:skin><![CDATA[
 		]]></b:skin>
 
 		<!-- Latest compiled and minified CSS -->
 		<link href='http://cdn.smurfdad.es/assets/bootstrap/3.3.1/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+		<link href='http://cdn.smurfdad.es/sprites/icon-round-social/css.css' rel='stylesheet' type='text/css'/>
+		<link href='http://cdn.smurfdad.es/css/bs-callout.css' rel='stylesheet' type='text/css'/>
+		<link href='http://cdn.smurfdad.es/css/bs-cloud-tag-list.css' rel='stylesheet' type='text/css'/>
+
 		<b:include data='blog' name='google-analytics'/>
+		<style>
+			.list-group-item-no-border{
+				border: 0px;
+            }
+			.bs-callout {
+    			margin-top: 15px;
+            }
+		</style>
 	</head>
 	<body>
 		<b:section id='cabecera'>
 			<b:widget id='PageList1' locked='false' title='Pages' type='PageList'>
 				<b:includable id='main'>
-					<div class='navbar navbar-inverse navbar-fixed-top' role='navigation'>
+					<div class='navbar navbar-default navbar-fixed-top' role='navigation'>
 						<div class='container'>
 							<div class='navbar-header'>
 								<button class='navbar-toggle' data-target='.navbar-collapse' data-toggle='collapse' type='button'>
@@ -29,7 +42,8 @@
 									<span class='icon-bar'/>
 									<span class='icon-bar'/>
 								</button>
-								<a class='navbar-brand' href='/'>
+
+								<a class='navbar-brand' expr:href='data:blog.homepageUrl'>
 									<data:blog.title/>
 								</a>
 							</div>
@@ -56,16 +70,13 @@
 					</div>
 				</b:includable>
 			</b:widget>
-			<b:widget id='Header1' locked='false' title='Recetas (cabecera)' type='Header'>
+			<b:widget id='Header1' locked='false' title='Recetas by Smurf Dad (cabecera)' type='Header'>
 				<b:includable id='main'>
-					<div class='page-header'>
+					<div class='page-header' style='background: url(http://cdn.smurfdad.es/images/cabecera/smurfegg.jpg) center no-repeat; background-size: 100%; '>
 						<div class='container'>
-							<h1>
-								<b:include name='title'/>
-							</h1>
-							<p>
+							<h1><span class='hidden'><b:include name='title'/></span>
 								<b:include name='description'/>
-							</p>
+							</h1>
 						</div>
 					</div>
 				</b:includable>
@@ -85,10 +96,35 @@
 							<b:if cond='data:blog.pageType == &quot;error_page&quot;'>
 								<b:include name='status-message'/>
 								<b:else/>
-								<b:loop values='data:posts' var='post'>
-									<b:include data='post' name='post'/>
+								<b:loop index='index' values='data:posts' var='post'>
+									<b:if cond='data:blog.pageType == &quot;index&quot; and !data:blog.searchLabel'>
+										<b:if cond='data:index == 0'>
+											<div class='row'>
+												<div class='col-md-12'>
+													<b:include data='post' name='post'/>
+												</div>
+											</div>
+											<b:else/>
+											<b:if cond='data:index % 2 != 0'>
+											&lt;div class=&quot;row&quot;&gt;
+											</b:if>
+
+											<div class='col-md-6'>
+												<b:include data='post' name='post'/>
+											</div>
+
+											<b:if cond='data:index % 2 == 0'>
+                                          &lt;/div&gt;
+											</b:if>
+
+										</b:if>
+										<b:else/>
+										<b:include data='post' name='post'/>
+									</b:if>
 								</b:loop>
-								<b:include name='nextprev'/>
+								<div class='row'>
+									<b:include name='nextprev'/>
+								</div>
 							</b:if>
 						</b:includable>
 						<b:includable id='backlinkDeleteIcon' var='backlink'/>
@@ -107,12 +143,12 @@
 								</span>
 							</b:if>
 							<a expr:href='data:post.commentFormIframeSrc' id='comment-editor-src'/>
-							<iframe allowtransparency='true' class='blogger-iframe-colorize blogger-comment-from-post' frameborder='0' height='410' id='comment-editor' name='comment-editor' src='' width='100%'/>
+							<iframe allowtransparency='true' class='blogger-iframe-colorize blogger-comment-from-post' frameborder='0' id='comment-editor' name='comment-editor' width='100%'/>
 							<data:post.friendConnectJs/>
 							<data:post.cmtfpIframe/>
 							<script type='text/javascript'>
-								BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;,
-								&#39;<data:post.communityId/>&#39;);
+                                BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;,
+                                &#39;<data:post.communityId/>&#39;);
 							</script>
 						</b:includable>
 						<b:includable id='commentDeleteIcon' var='comment'>
@@ -124,21 +160,19 @@
 						<b:includable id='comment_picker' var='post'/>
 						<b:includable id='comments' var='post'>
 							<b:if cond='data:post.allowComments'>
-								<!-- Si el elemento acepta comentarios dibujamos el pie -->
-								<div class='panel-footer'>
+								<section>
+									<!-- Si el elemento acepta comentarios dibujamos el pie -->
+									<hr/>
 									<!-- Si se pueden mostrar los comentarios los mostramos -->
 									<b:if cond='data:post.comments'>
-										<b:loop values='data:post.comments' var='comment'>
-											<b:if cond='data:comment.isDeleted'>
-												<b:else/>
-											</b:if>
-											<div class='panel panel-info'>
-												<div class='panel-heading'>
-													<data:comment.timestamp/>
+										<ul class='media-list'>
+											<b:loop values='data:post.comments' var='comment'>
+												<li class='media'>
+													<b:if cond='data:comment.isDeleted'>
+														<b:else/>
+													</b:if>
 													<!-- b:include data='comment' name='commentDeleteIcon'/ -->
-												</div>
-												<div class='panel-body row'>
-													<div class='thumbnail col-md-2 text-center'>
+													<div class='media-left'>
 														<b:if cond='data:blog.enabledCommentProfileImages'>
 															<data:comment.authorAvatarImage/>
 														</b:if>
@@ -152,12 +186,16 @@
 															</b:if>
 														</div>
 													</div>
-													<div class='col-md-10'>
+													<div class='media-body'>
+														<small>
+															<data:comment.timestamp/>
+														</small>
+														<br/>
 														<data:comment.body/>
 													</div>
-												</div>
-											</div>
-										</b:loop>
+												</li>
+											</b:loop>
+										</ul>
 									</b:if>
 									<b:if cond='data:blog.pageType != &quot;index&quot;'>
 										<b:if cond='data:blog.pageType != &quot;archive&quot;'>
@@ -181,7 +219,7 @@
 											<data:top.commentLabel/>
 										</a>
 									</b:if>
-								</div>
+								</section>
 							</b:if>
 						</b:includable>
 						<b:includable id='feedLinks'/>
@@ -195,64 +233,66 @@
 							<ul class='pager'>
 								<b:if cond='data:blog.pageUrl != data:newerPageUrl'>
 									<li>
-										<a expr:href='data:newerPageUrl'>
-											<data:newerPageTitle/>
-										</a>
+										<a expr:href='data:newerPageUrl'>Recetas más recientes</a>
+									</li>
+								</b:if>
+								<b:if cond='data:blog.pageUrl != data:newerPageUrl and data:blog.pageUrl != data:olderPageUrl'>
+									<li>
+										<a expr:href='data:blog.homepageUrl'><span class='glyphicon glyphicon-home'/></a>
 									</li>
 								</b:if>
 								<b:if cond='data:blog.pageUrl != data:olderPageUrl'>
 									<li>
-										<a expr:href='data:olderPageUrl'>
-											<data:olderPageTitle/>
-										</a>
+										<a expr:href='data:olderPageUrl'>Recetas anteriores</a>
 									</li>
 								</b:if>
 							</ul>
 						</b:includable>
 						<b:includable id='post' var='post'>
-							<div class='panel panel-default'>
-								<div class='panel-heading'>
-									<h2 class='panel-title'>
-										<a expr:href='data:post.url'>
-											<data:post.title/>
-										</a>
-									</h2>
-									<small>
-										<data:post.dateHeader/>
-									</small>
+							<article class='bs-callout bs-callout-primary text-justify'>
+								<header>
+									<a expr:href='data:post.url'>
+										<h3><data:post.title/></h3>
+									</a>
+									<small><data:post.dateHeader/></small>
 									<b:if cond='data:post.labels'>
-										<br/>
-										<b:loop values='data:post.labels' var='label'>
-											<a class='btn btn-default btn-xs' expr:href='data:label.url' rel='tag'>
-												<data:label.name/>
-											</a>
-										</b:loop>
-
+										<ul class='cloud-tag-list'>
+											<b:loop values='data:post.labels' var='label'>
+												<li class='cloud-tag-list-item cloud-tag-list-item-default'>
+													<a expr:href='data:label.url' rel='tag'>
+														<data:label.name/>
+													</a>
+												</li>
+											</b:loop>
+										</ul>
 									</b:if>
-								</div>
-								<div class='panel-body'>
-									<b:if cond='data:blog.pageType == &quot;index&quot;'>
-										<!-- Visualizacion de lista de posts o busquedas el primer post, 
-											se muestra completo -->
-										<data:post.snippet/>
-										<a expr:href='data:post.url'>
+								</header>
+								<b:if cond='data:blog.pageType == &quot;index&quot;'>
+									<!-- Visualizacion de lista de posts o busquedas el primer post, se muestra completo -->
+									<b:if cond='data:post.isFirstPost and not data:blog.searchLabel'>
+										<!--En las busquedas sacamos el primer post completo y el resto en resumen -->
+										<data:post.body/>
+										<b:else/>
+										<data:post.snippet/><br/>
+										<a class='btn btn-default btn-xs' expr:href='data:post.url'>
+											<data:post.jumpText/>
+										</a>
+									</b:if>
+									<b:else/>
+									<b:if cond='data:blog.pageType == &quot;archive&quot;'>
+										<!-- Si es una busqueda de archivo sacamos el resumen -->
+										<data:post.snippet/><br/>
+										<a class='btn btn-default btn-xs' expr:href='data:post.url'>
 											<data:post.jumpText/>
 										</a>
 										<b:else/>
-										<b:if cond='data:blog.pageType == &quot;archive&quot;'>
-											<!-- Si es una busqueda de archivo sacamos el resumen -->
-											<data:post.snippet/>
-											<a expr:href='data:post.url'>
-												<data:post.jumpText/>
-											</a>
-											<b:else/>
-											<!-- el resto de casos muestra el cuerpo completo -->
-											<data:post.body/>
-										</b:if>
+										<!-- el resto de casos muestra el cuerpo completo -->
+										<data:post.body/>
 									</b:if>
-								</div>
+								</b:if>
 								<b:include data='post' name='comments'/>
-							</div>
+
+							</article>
 						</b:includable>
 						<b:includable id='postQuickEdit' var='post'/>
 						<b:includable id='shareButtons' var='post'/>
@@ -269,70 +309,110 @@
 					</b:widget>
 				</b:section>
 				<b:section class='col-md-3' id='lateral'>
-					<b:widget id='Label1' locked='false' title='Categorias' type='Label'>
+					<b:widget id='HTML2' locked='false' title='Sigueme a través de' type='HTML'>
 						<b:includable id='main'>
-							<div class='panel panel-default'>
-								<b:if cond='data:title'>
-									<div class='panel-heading'>
-										<h3 class='panel-title'>
-											<data:title/>
-										</h3>
-									</div>
-
+							<div class='bs-callout bs-callout-info'>
+								<b:if cond='data:title != &quot;&quot;'>
+									<h3>
+										<data:title/>
+									</h3>
 								</b:if>
-								<div class='list-group'>
-									<b:loop values='data:labels' var='label'>
-										<b:if cond='data:blog.url == data:label.url'>
-											<a class='list-group-item active' expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
-												<data:label.name/>
-												<span class='badge pull-right' dir='ltr'>
-													<data:label.count/>
-												</span>
-											</a>
-											<b:else/>
-											<a class='list-group-item' expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
-												<data:label.name/>
-												<span class='badge pull-right' dir='ltr'>
-													<data:label.count/>
-												</span>
-											</a>
-										</b:if>
-
-									</b:loop>
-								</div>
+								<data:content/>
 							</div>
 						</b:includable>
 					</b:widget>
-					<b:widget id='BlogArchive1' locked='false' title='Histórico de publicaciones' type='BlogArchive'>
+					<b:widget id='Label1' locked='false' title='Categorías' type='Label'>
 						<b:includable id='main'>
-							<div class='panel panel-default'>
+							<div class='bs-callout bs-callout-warning'>
 								<b:if cond='data:title'>
-									<div class='panel-heading'>
-										<h3 class='panel-title'>
-											<data:title/>
-										</h3>
-									</div>
+									<h3>
+										<data:title/>
+									</h3>
 								</b:if>
-								<div class='list-group'>
-									<b:include data='data' name='flat'/>
-								</div>
-
-
+								<b:if cond='data:display == &quot;list&quot;'>
+									<ul class='list-unstyled'>
+										<b:loop values='data:labels' var='label'>
+											<b:if cond='data:blog.url == data:label.url'>
+												<li>
+													<a class='bg-info' expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
+														<data:label.name/>
+														<b:if cond='data:showFreqNumbers'>
+															<span class='badge pull-right' dir='ltr'>
+																<data:label.count/>
+															</span>
+														</b:if>
+													</a>
+												</li>
+												<b:else/>
+												<li>
+													<a expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
+														<data:label.name/>
+														<b:if cond='data:showFreqNumbers'>
+															<span class='badge pull-right' dir='ltr'>
+																<data:label.count/>
+															</span>
+														</b:if>
+													</a>
+												</li>
+											</b:if>
+										</b:loop>
+									</ul>
+									<b:else/>
+									<ul class='cloud-tag-list'>
+										<b:loop values='data:labels' var='label'>
+											<b:if cond='data:blog.url == data:label.url'>
+												<li class='cloud-tag-list-item cloud-tag-list-item-success'>
+													<a expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
+														<data:label.name/>
+														<b:if cond='data:showFreqNumbers'>
+															<span class='badge' dir='ltr'>
+																<data:label.count/>
+															</span>
+														</b:if>
+													</a>
+												</li>
+												<b:else/>
+												<li class='cloud-tag-list-item cloud-tag-list-item-warning'>
+													<a expr:dir='data:blog.languageDirection' expr:href='data:label.url'>
+														<data:label.name/>
+														<b:if cond='data:showFreqNumbers'>
+															<span class='badge' dir='ltr'>
+																<data:label.count/>
+															</span>
+														</b:if>
+													</a>
+												</li>
+											</b:if>
+										</b:loop>
+									</ul>								
+								</b:if>
+							</div>
+						</b:includable>
+					</b:widget>
+					<b:widget id='BlogArchive1' locked='false' title='Histórico de Recetas' type='BlogArchive'>
+						<b:includable id='main'>
+							<div class='bs-callout bs-callout-success hidden-xs'>
+								<b:if cond='data:title'>
+									<h3>
+										<data:title/>
+									</h3>
+								</b:if>
+								<b:include data='data' name='flat'/>
 							</div>
 						</b:includable>
 						<b:includable id='flat' var='data'>
-
-							<b:loop values='data:data' var='i'>
-
-								<a class='list-group-item' expr:href='data:i.url'>
-									<data:i.name/>
-									<span class='badge pull-right' dir='ltr'>
-										<data:i.post-count/>
-									</span>
-								</a>
-
-							</b:loop>
-
+							<ul class='list-unstyled'>
+								<b:loop values='data:data' var='i'>
+									<li>
+										<a expr:href='data:i.url'>
+											<data:i.name/>
+											<span class='badge pull-right' dir='ltr'>
+												<data:i.post-count/>
+											</span>
+										</a>
+									</li>
+								</b:loop>
+							</ul>
 						</b:includable>
 						<b:includable id='interval' var='intervalData'>
 							<span class='list-group-item'>Vista no disponible</span>
@@ -347,33 +427,22 @@
 							<span class='list-group-item'>Vista no disponible</span>
 						</b:includable>
 					</b:widget>
-					<b:widget id='PopularPosts1' locked='false' title='Recetas más populares' type='PopularPosts'>
+					<b:widget id='PopularPosts1' locked='false' title='Recetas mas populares' type='PopularPosts'>
 						<b:includable id='main'>
-							<div class='panel panel-default'>
+							<div class='bs-callout bs-callout-danger hidden-xs'>
 								<b:if cond='data:title'>
-									<div class='panel-heading'>
-										<h3 class='panel-title'>
-											<data:title/>
-										</h3>
-									</div>
-
+									<h3>
+										<data:title/>
+									</h3>
 								</b:if>
-								<div class='list-group'>
+								<ul class='list-unstyled'>
 									<b:loop values='data:posts' var='post'>
-										<b:if cond='data:blog.url == data:post.url'>
-											<a class='list-group-item active' expr:dir='data:blog.languageDirection' expr:href='data:post.url'>
+										<li><span class='glyphicon glyphicon-star'/><a expr:dir='data:blog.languageDirection' expr:href='data:post.href'>
 												<data:post.title/>
-											</a>
-											<b:else/>
-											<a class='list-group-item' expr:dir='data:blog.languageDirection' expr:href='data:post.url'>
-												<data:post.title/>
-											</a>
-										</b:if>
-
+											</a></li>
 									</b:loop>
-								</div>
+								</ul>
 							</div>
-
 						</b:includable>
 					</b:widget>
 				</b:section>
